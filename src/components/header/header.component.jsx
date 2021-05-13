@@ -21,7 +21,7 @@ const Header = ({currentUser}) => (
         currentUser ? //Nếu đang có user thì sẽ in ra div SignOut với sign out method
         <div className='option' onClick={() => auth.signOut()}> SIGN OUT </div>
         :
-        <Link className='option' path='/signin'> SIGN IN </Link> //Nếu không thì in ra link với đường dẫn tới trang sign in
+        <Link className='option' to='signin'> SIGN IN </Link> //Nếu không thì in ra link với đường dẫn tới trang sign in
       }
     </div>
   </div>

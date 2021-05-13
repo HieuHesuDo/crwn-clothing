@@ -13,6 +13,29 @@ const config = {
   measurementId: "G-08HZH2HLFL",
 };
 
+export const creatUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return; //Nếu userAuth không tồn tại thì thoát khỏi chức năng
+
+  //Nếu như userAuth có tồn tại thì truy vấn vào fitrstore để lấy document để xem user đó có tồn tại trong database hay không
+  const userRef = firestore.doc(`users/${userAuth.uid}`)
+  const snapShot = await userRef.get()
+  
+  if(!snapShot.exists){ //Kiểm tra nếu không tồn tại Snapshot 
+    const {displayName, email} = userAuth;
+    const creatAt = new Date();
+
+    try { //Tạo user mới dựa trên data từ userAuth snapshot
+      await userRef.set({
+        displayName, email, creatAt, ...additionalData
+      })
+    } catch (error) {
+      console.log('error creating user', error.message) //Nếu có lỗi xảy ra thì thông báo 
+    }
+  }
+
+  return userRef;
+}
+
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
