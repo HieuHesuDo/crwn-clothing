@@ -18,20 +18,21 @@ class App extends React.Component {
   unSubscribeFromAuth = null;
 
   componentDidMount() {
-    this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => { //Open Subscription hỗ trợ kết nối giữa Firebase và ứng dụng
-      if (userAuth) { //Kiểm tra account người dùng đăng nhập có tồn tại trên server chưa
+    this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      //Open Subscription hỗ trợ kết nối giữa Firebase và ứng dụng
+      if (userAuth) {
+        //Kiểm tra account người dùng đăng nhập có tồn tại trên server chưa
         const userRef = await creatUserProfileDocument(userAuth); //Lây document về người dùng từ userAuth gán cho userRef, nếu document chưa tồn tại trên server sẽ tạo object và document mới
 
-        userRef.onSnapshot((snapShot) => { //Theo dõi userRef xem có cập nhật data không, đồng thời lấy state đầu tiên của data đó
-          this.setState( //truyền data của user đc lấy từ snapShot vào state
+        userRef.onSnapshot((snapShot) => {
+          //Theo dõi userRef xem có cập nhật data không, đồng thời lấy state đầu tiên của data đó
+          this.setState(
+            //truyền data của user đc lấy từ snapShot vào state
             {
               currentUser: {
                 id: snapShot.id,
                 ...snapShot.data(),
               },
-            },
-            () => {
-              console.log(this.state);
             }
           );
         });
