@@ -24,17 +24,17 @@ class SignUp extends React.Component {
 
     const { displayName, email, password, confirmPassword } = this.state;
 
-    if (password !== confirmPassword) {
+    if (password !== confirmPassword) { //Kiểm tra xem có khớp không
       alert("Password and Confirm password dont't match");
       return;
     }
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(
+      const { user } = await auth.createUserWithEmailAndPassword( //Tạo user mới với email và password
         email,
         password
       );
-      await creatUserProfileDocument(user, { displayName });
-      this.setState({
+      await creatUserProfileDocument(user, { displayName }); //Tạo document cho user vừa tạo
+      this.setState({  //Reset State đưa form thành rỗng
         displayName: "",
         email: "",
         password: "",
