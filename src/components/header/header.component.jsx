@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import {createStructuredSelector} from 'reselect'
+
 import { ReactComponent as Logo } from "../../assets/crown.svg";
+
 import { auth } from "../../firebase/firebase.utils";
 import CartIcon from "../cart-icon/cart-icon.component";
 import CartDropdown from "../cart-dropdown/cart-dropdown.component";
+import {selectCurrentUser} from '../../redux/user/user.selector'
+import {selectHidden} from '../../redux/cart/cart.selectors'
+
 
 import "./header.style.scss";
 
@@ -41,8 +47,8 @@ const Header = ({ currentUser, hidden }) => ( //Nhận current user value từ r
 );
 
 const mapStateToProps = (state) => ({ 
-  currentUser: state.user.currentUser, //Lấy giá trị currentUser của user từ state gán vào currentUser như một props
-  hidden: state.cart.hidden //Lấy giá trị hidden của cart từ state gán vào hidden như một props
+  currentUser: selectCurrentUser(state), //Lấy giá trị currentUser của user từ state gán vào currentUser như một props
+  hidden: selectHidden(state) //Lấy giá trị hidden của cart từ state gán vào hidden như một props
 });
 
 export default connect(mapStateToProps)(Header);
